@@ -1,0 +1,40 @@
+{
+  "name": "school-timetable",
+  "version": "1.0.0",
+  "description": "سیستەمی خشتەی هەفتانەی قوتابخانە",
+  "main": "main.js",
+  "author": "Herem",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.herem.timetable",
+    "productName": "خشتەی هەفتانە",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "خشتەی هەفتانە"
+    }
+  }
+}
