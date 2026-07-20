@@ -28,3 +28,4 @@
 C:\Users\<ناوەکەت>\AppData\Roaming\school-timetable\timetable-data.json
 ```
 بۆ پاڵپشتی (backup)، ئەم فایلە کۆپی بکە.
+
