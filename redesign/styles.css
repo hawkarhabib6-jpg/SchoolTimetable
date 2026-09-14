@@ -1,0 +1,803 @@
+/* ==========================================================================
+   بیرکاری ١٢ی زانستی — بەشی چوارەم
+   Design system for the re-typeset edition
+   ========================================================================== */
+
+/* ---------- 1. Fonts ---------- */
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-500.ttf") format("truetype"); font-weight: 500; font-display: block; }
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-600.ttf") format("truetype"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-700.ttf") format("truetype"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-500.ttf") format("truetype"); font-weight: 500; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-600.ttf") format("truetype"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-700.ttf") format("truetype"); font-weight: 700; font-display: block; }
+
+/* ---------- 2. Tokens ---------- */
+:root {
+  /* neutrals */
+  --ink:      #16222e;
+  --ink-soft: #3d4f5e;
+  --muted:    #6b7c8a;
+  --rule:     #dfe7ed;
+  --rule-strong:#c3d1dc;
+  --paper:    #ffffff;
+  --tint:     #f5f8fa;
+
+  /* brand */
+  --brand:     #0e4f6e;
+  --brand-600: #0b3f58;
+  --brand-300: #7fb0c8;
+  --brand-50:  #eef5f9;
+
+  /* semantics */
+  --up:      #1a7a52;   /* ڕوو لە زیادبوون */
+  --up-50:   #eaf6f0;
+  --down:    #b3322c;   /* ڕوو لە کەمبوون */
+  --down-50: #fdeeed;
+  --accent:  #b06d12;   /* year badges, example chips */
+  --accent-50:#fdf4e6;
+  --violet:  #5c4a9c;   /* بەهای شلۆق */
+  --violet-50:#f1eefa;
+  --rose-50: #fdeef2;
+  --rose:    #a52b4d;
+
+  /* geometry */
+  --r-sm: 4px;
+  --r:    7px;
+  --r-lg: 12px;
+
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --pad-x:  13mm;
+}
+
+/* ---------- 3. Base ---------- */
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  background: #67757f;
+  color: var(--ink);
+  font-family: "Sans", system-ui, sans-serif;
+  font-size: 10pt;
+  line-height: 1.6;
+  direction: rtl;
+  text-align: right;
+  font-feature-settings: "kern" 1;
+}
+p { margin: 0 0 .55em; }
+b, strong { font-weight: 600; }
+
+/* math is always LTR and visually a touch larger than the script around it */
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.04em; }
+.katex-display { margin: .45em 0; }
+.m { display: inline-block; direction: ltr; unicode-bidi: isolate; }
+
+/* colour helpers used inside prose */
+.c-up   { color: var(--up);   font-weight: 600; }
+.c-down { color: var(--down); font-weight: 600; }
+.c-key  { color: var(--violet); font-weight: 600; }
+.c-br   { color: var(--brand); font-weight: 600; }
+.c-ac   { color: var(--accent); font-weight: 600; }
+.c-mut  { color: var(--muted); }
+
+/* ---------- 4. Sheet ---------- */
+.sheet {
+  position: relative;
+  width: var(--page-w);
+  height: var(--page-h);
+  margin: 0 auto 10mm;
+  padding: 11mm var(--pad-x) 10mm;
+  background: var(--paper);
+  box-shadow: 0 2px 14px rgba(0,0,0,.28);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sheet-body { flex: 1 1 auto; min-height: 0; }
+
+/* running head */
+.rh {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 5mm;
+  border-bottom: 1.6px solid var(--brand);
+  font-family: "Kufi", sans-serif;
+  font-size: 7.6pt;
+  letter-spacing: .01em;
+  color: var(--brand-600);
+}
+.rh .rh-sec { font-weight: 600; }
+.rh .rh-au  { color: var(--muted); font-weight: 400; }
+.rh::after { content: none; }
+
+/* running foot */
+.rf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4mm;
+  padding-top: 4px;
+  border-top: 1px solid var(--rule);
+  font-family: "Kufi", sans-serif;
+  font-size: 7.4pt;
+  color: var(--muted);
+}
+.rf .folio {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  font-size: 8pt;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: .02em;
+}
+
+/* ---------- 5. Cover ---------- */
+.cover { justify-content: space-between; padding: 0; overflow: hidden; }
+.cover-top {
+  background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand) 55%, #17708f 100%);
+  color: #fff;
+  padding: 22mm var(--pad-x) 18mm;
+  position: relative;
+}
+.cover-top::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent) 0 33%, #d8a43f 33% 66%, var(--brand-300) 66% 100%);
+}
+.cover-kicker {
+  font-family: "Kufi", sans-serif;
+  font-size: 10pt;
+  letter-spacing: .06em;
+  opacity: .82;
+  margin-bottom: 6mm;
+}
+.cover-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30mm; height: 18mm;
+  border-radius: var(--r-lg);
+  background: var(--accent);
+  color: #fff;
+  font-family: "Kufi", sans-serif;
+  font-size: 22pt;
+  font-weight: 700;
+  direction: ltr;
+  margin-bottom: 7mm;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+.cover-title {
+  font-family: "Kufi", sans-serif;
+  font-size: 30pt;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0 0 3mm;
+}
+.cover-sub {
+  direction: ltr; text-align: left;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14pt;
+  letter-spacing: .12em;
+  opacity: .9;
+}
+.cover-mid { padding: 10mm var(--pad-x); flex: 1; }
+.cover-toc { list-style: none; margin: 0; padding: 0; }
+.cover-toc li {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 2.6mm 0;
+  border-bottom: 1px dashed var(--rule);
+  font-family: "Kufi", sans-serif;
+  font-size: 10pt;
+}
+.cover-toc li span:first-child {
+  width: 26px; height: 26px; flex: none;
+  border-radius: 50%;
+  background: var(--brand-50);
+  color: var(--brand);
+  font-size: 8.5pt; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.cover-toc .toc-t { flex: 1; }
+.cover-toc .toc-p { color: var(--muted); font-size: 8.6pt; direction: ltr; }
+.cover-foot {
+  background: var(--tint);
+  border-top: 1px solid var(--rule);
+  padding: 7mm var(--pad-x);
+  display: flex; justify-content: space-between; align-items: flex-end;
+  font-family: "Kufi", sans-serif;
+}
+.cover-foot .au { font-size: 11pt; font-weight: 600; color: var(--brand-600); line-height: 2; }
+.cover-foot .au small { display: block; font-size: 8pt; font-weight: 400; color: var(--muted); letter-spacing: .04em; }
+.cover-foot .yr { font-size: 9pt; color: var(--muted); direction: ltr; }
+
+/* ---------- 6. Headings ---------- */
+.lesson {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 6mm;
+  padding-bottom: 4mm;
+  border-bottom: 2.5px solid var(--brand);
+}
+.lesson .n {
+  flex: none;
+  width: 19mm; height: 12mm;
+  border-radius: var(--r);
+  background: var(--accent);
+  color: #fff;
+  font-family: "Kufi", sans-serif;
+  font-size: 14pt; font-weight: 700;
+  direction: ltr;
+  display: flex; align-items: center; justify-content: center;
+}
+.lesson h1 {
+  margin: 0;
+  font-family: "Kufi", sans-serif;
+  font-size: 16pt; font-weight: 700;
+  color: var(--brand-600);
+  line-height: 1.5;
+}
+.lesson .en {
+  display: block;
+  direction: ltr; text-align: right;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 9.5pt; font-weight: 400;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+h2.sec {
+  font-family: "Kufi", sans-serif;
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: var(--brand-600);
+  margin: 4mm 0 2.6mm;
+  padding-inline-start: 10px;
+  border-inline-start: 4px solid var(--accent);
+  line-height: 1.6;
+}
+h3.sub {
+  font-family: "Kufi", sans-serif;
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: var(--brand);
+  margin: 5mm 0 2.5mm;
+}
+.band {
+  background: var(--brand-600);
+  color: #fff;
+  font-family: "Kufi", sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  padding: 2.2mm 4mm;
+  border-radius: var(--r);
+  margin: 0 0 3mm;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.band .en { font-family: Georgia, serif; font-size: 9pt; opacity: .8; direction: ltr; letter-spacing: .06em; }
+
+/* ---------- 7. Blocks ---------- */
+.block { break-inside: avoid; }
+
+/* concept / definition card */
+.card {
+  border: 1px solid var(--rule);
+  border-inline-start: 4px solid var(--brand);
+  border-radius: var(--r);
+  background: var(--paper);
+  padding: 2.6mm 3.6mm;
+  margin: 0 0 2.8mm;
+}
+.card > .t {
+  font-family: "Kufi", sans-serif;
+  font-weight: 600;
+  font-size: 10.4pt;
+  color: var(--brand-600);
+  margin: 0 0 2mm;
+}
+.card.tint { background: var(--brand-50); border-color: #cfe1eb; }
+
+/* numbered rule list */
+ol.rules, ul.rules { list-style: none; margin: 0; padding: 0; counter-reset: r; }
+ol.rules > li, ul.rules > li {
+  position: relative;
+  padding-inline-start: 24px;
+  margin-bottom: 1.1mm;
+}
+ol.rules > li::before {
+  counter-increment: r;
+  content: counter(r);
+  position: absolute; inset-inline-start: 0; top: .28em;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-size: 7.6pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Kufi", sans-serif;
+}
+ul.rules > li::before {
+  content: "";
+  position: absolute; inset-inline-start: 6px; top: .78em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+}
+ol.rules.alt > li::before { background: var(--accent); }
+
+/* callouts */
+.note {
+  border-radius: var(--r);
+  padding: 2.2mm 3.2mm;
+  margin: 0 0 2.6mm;
+  border: 1px solid transparent;
+  font-size: 9.6pt;
+}
+.note .lab {
+  font-family: "Kufi", sans-serif;
+  font-weight: 700;
+  font-size: 9.4pt;
+  margin-inline-end: 6px;
+}
+.note.tip  { background: var(--brand-50); border-color: #cfe1eb; }
+.note.tip .lab { color: var(--brand); }
+.note.warn { background: var(--rose-50); border-color: #f2ccd6; }
+.note.warn .lab { color: var(--rose); }
+.note.key  { background: var(--accent-50); border-color: #ecd5ac; }
+.note.key .lab { color: var(--accent); }
+.note.ok   { background: var(--up-50); border-color: #c6e4d5; }
+.note.ok .lab { color: var(--up); }
+
+/* worked example */
+.ex {
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin: 0 0 3mm;
+  background: var(--paper);
+}
+.ex > .h {
+  background: var(--accent-50);
+  border-bottom: 1px solid #ecd5ac;
+  padding: 1.8mm 3.2mm;
+  display: flex; align-items: center; gap: 8px;
+  font-family: "Kufi", sans-serif;
+  font-size: 10pt;
+}
+.ex > .h .tag {
+  flex: none;
+  background: var(--accent); color: #fff;
+  border-radius: var(--r-sm);
+  padding: .6mm 2.6mm;
+  font-size: 8.6pt; font-weight: 700;
+}
+.ex > .b { padding: 2.4mm 3.2mm; }
+
+/* exam question */
+.q {
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  margin: 0 0 3mm;
+  background: var(--paper);
+  overflow: hidden;
+}
+.q > .h {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 1.8mm 3.2mm;
+  background: var(--tint);
+  border-bottom: 1px solid var(--rule);
+}
+.q .qn {
+  flex: none;
+  width: 19px; height: 19px;
+  border-radius: var(--r-sm);
+  background: var(--brand); color: #fff;
+  font-family: "Kufi", sans-serif; font-size: 8pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  direction: ltr;
+  margin-top: 2px;
+}
+.q .qt { flex: 1; font-size: 9.8pt; line-height: 1.65; }
+.years { flex: none; display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; margin-top: 1px; }
+.year {
+  background: var(--accent-50);
+  border: 1px solid #e3c896;
+  color: var(--accent);
+  border-radius: 999px;
+  padding: .2mm 2.4mm;
+  font-size: 7.6pt; font-weight: 700;
+  font-family: "Kufi", sans-serif;
+  direction: ltr;
+  white-space: nowrap;
+}
+.year.rep { background: var(--violet-50); border-color: #cfc5ec; color: var(--violet); }
+.q > .b { padding: 2.4mm 3.2mm; }
+
+/* multiple choice */
+.choices {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px 6px;
+  margin: 0 0 2.2mm;
+  list-style: none; padding: 0;
+}
+.choices.two { grid-template-columns: repeat(2, 1fr); }
+.choices.three { grid-template-columns: repeat(3, 1fr); }
+.choices li {
+  display: flex; align-items: center; gap: 6px;
+  padding: 1mm 2mm;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: #fcfdfe;
+  font-size: 9.4pt;
+  min-width: 0;
+}
+.choices li .k {
+  flex: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1.3px solid var(--rule-strong);
+  color: var(--muted);
+  font-size: 7.4pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  direction: ltr;
+  font-family: "Kufi", sans-serif;
+}
+.choices li.ok { background: var(--up-50); border-color: #a9d8c1; }
+.choices li.ok .k { background: var(--up); border-color: var(--up); color: #fff; }
+.choices li.ok .v { font-weight: 600; }
+
+/* solution */
+.sol { border-top: 1px dashed var(--rule-strong); padding-top: 1.8mm; }
+.sol > .lab {
+  font-family: "Kufi", sans-serif;
+  font-size: 8.6pt; font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-50);
+  border-radius: var(--r-sm);
+  padding: .4mm 2.4mm;
+  display: inline-block;
+  margin-bottom: 1.6mm;
+}
+.steps { margin: 0; padding: 0; list-style: none; direction: ltr; text-align: left; }
+.steps > div { margin-bottom: .3mm; }
+.steps > div:last-child { margin-bottom: 0; }
+/* continuation of a split card */
+.q.cont > .h, .ex.cont > .h { opacity: .82; }
+.q.cont > .h::after, .ex.cont > .h::after {
+  content: "بەردەوامی";
+  font-family: "Kufi", sans-serif; font-size: 7.4pt; color: var(--muted);
+  border: 1px dashed var(--rule-strong); border-radius: 999px; padding: 0 5px;
+}
+.lead { display: inline-block; min-width: 0; }
+
+/* a left/right math+comment row */
+.row { display: flex; gap: 10px; align-items: flex-start; }
+.row > .side { flex: none; width: 38%; }
+.row > .main { flex: 1; min-width: 0; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+.cols3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 3mm; }
+.cols4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 3mm; }
+.vsep { border-inline-start: 1px solid var(--rule); padding-inline-start: 4mm; }
+
+/* conclusion strip */
+.res {
+  display: flex; flex-wrap: wrap; gap: 3px 14px;
+  background: var(--tint);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  padding: 1.4mm 2.4mm;
+  margin: 1.4mm 0 0;
+  font-size: 9.4pt;
+}
+.res .it { display: flex; gap: 6px; align-items: baseline; }
+.res .it b { font-family: "Kufi", sans-serif; font-weight: 600; font-size: 9pt; color: var(--ink-soft); }
+
+/* ---------- 8. Sign table ---------- */
+.sgnwrap { margin: 1.8mm 0 2mm; }
+table.sgn {
+  width: 100%;
+  border-collapse: collapse;
+  direction: ltr;
+  font-size: 9.2pt;
+  table-layout: fixed;
+  background: var(--paper);
+}
+table.sgn th, table.sgn td {
+  border: 1px solid var(--rule-strong);
+  text-align: center;
+  vertical-align: middle;
+  padding: 1mm .8mm;
+}
+table.sgn th.lbl {
+  width: 15%;
+  background: var(--brand-50);
+  color: var(--brand-600);
+  font-weight: 700;
+}
+table.sgn tr.x td { background: #f3f7ea; font-weight: 600; }
+table.sgn tr.x th.lbl { background: #eaf1d9; }
+table.sgn td.crit { background: #fff; color: var(--down); font-weight: 700; width: 9%; }
+table.sgn tr.x td.crit { background: #fbf2f2; }
+table.sgn td.edge { color: var(--ink-soft); }
+table.sgn tr.d td { letter-spacing: .22em; font-weight: 700; }
+table.sgn tr.d td.pos { color: var(--up); }
+table.sgn tr.d td.neg { color: var(--down); }
+table.sgn tr.f td { height: 7.2mm; }
+table.sgn td.und {
+  font-family: "Sans", sans-serif;
+  font-size: 6.6pt;
+  color: var(--violet);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+  direction: rtl;
+  padding: 1mm .5mm;
+}
+table.sgn td.val { color: var(--down); font-weight: 700; background: #fbfbfb; }
+.tr { position: relative; display: block; height: 6mm; }
+.tr svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tr svg line { stroke: currentColor; stroke-width: 2.6; vector-effect: non-scaling-stroke; }
+.tr .head {
+  position: absolute; width: 0; height: 0;
+  border-left: 3.4px solid transparent;
+  border-right: 3.4px solid transparent;
+  border-bottom: 6.4px solid currentColor;
+}
+.tr.up   { color: var(--up); }
+.tr.down { color: var(--down); }
+.tr.up   .head { top: .2mm;    inset-inline-end: 1mm; transform: rotate(52deg); }
+.tr.down .head { bottom: .2mm; inset-inline-end: 1mm; transform: rotate(128deg); }
+
+/* probe row inside the table */
+table.sgn tr.pr td, table.sgn tr.pr th { border: none; padding: 0 0 .6mm; background: none; }
+table.sgn tr.pr .chip {
+  display: inline-block;
+  background: var(--brand-50);
+  border: 1px solid #c2dae7;
+  border-radius: var(--r-sm);
+  color: var(--brand);
+  font-size: 7.4pt; font-weight: 700;
+  padding: 0 4px; line-height: 1.55;
+  direction: ltr;
+}
+
+/* ---------- 9. Figures ---------- */
+figure.fig { margin: 0 0 2mm; break-inside: avoid; }
+figure.fig img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: #fff;
+}
+figure.fig figcaption {
+  margin-top: 1.4mm;
+  font-size: 8.2pt;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+}
+figure.fig figcaption b { color: var(--ink-soft); font-family: "Kufi", sans-serif; font-weight: 600; }
+.fig.plain img { border: none; }
+/* even rows of figures: equal picture heights */
+.cols2 > figure.fig img, .cols3 > figure.fig img, .cols4 > figure.fig img { height: 30mm; object-fit: contain; }
+.cols3.tall > figure.fig img, .cols4.tall > figure.fig img { height: 36mm; }
+.cols2.tall > figure.fig img { height: 44mm; }
+.fig.sm img { height: 30mm; object-fit: contain; }
+.fignum {
+  display: inline-block;
+  background: var(--brand); color: #fff;
+  border-radius: var(--r-sm);
+  font-size: 7.6pt; font-weight: 700; direction: ltr;
+  padding: 0 4px; margin-inline-end: 5px;
+  font-family: "Kufi", sans-serif;
+}
+
+/* ---------- 10. Tree diagram (p.1) ---------- */
+.tree { margin: 1mm 0 4mm; }
+.tree .lvl { display: flex; justify-content: center; gap: 6mm; }
+.tree .node {
+  border: 1.4px solid var(--brand);
+  background: var(--brand-50);
+  color: var(--brand-600);
+  border-radius: var(--r-sm);
+  padding: 1.6mm 3mm;
+  font-family: "Kufi", sans-serif;
+  font-size: 9pt; font-weight: 600;
+  text-align: center;
+}
+.tree .node.g { border-color: var(--up); background: var(--up-50); color: var(--up); }
+.tree .stem { height: 5mm; position: relative; }
+.tree .root {
+  display: block; margin: 0 auto 0;
+  background: var(--brand-600); color: #fff; border-color: var(--brand-600);
+  max-width: 68%;
+}
+
+/* ---------- 11. Formula reference (trig page) ---------- */
+.quad {
+  position: relative;
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  background: var(--tint);
+  padding: 4mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+}
+.quad .cell {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  padding: 2.6mm 3mm;
+  text-align: center;
+}
+.quad .cell .qn {
+  font-family: "Kufi", sans-serif;
+  font-size: 8.6pt; font-weight: 700;
+  color: var(--brand);
+  display: block; margin-bottom: 1mm;
+}
+.quad .cell .ref { color: var(--violet); font-weight: 700; display: block; margin-bottom: 1mm; }
+.quad .cell .sg { display: flex; justify-content: center; gap: 10px; font-size: 9.4pt; }
+.quad .cell .sg i { font-style: normal; }
+.pos { color: var(--up); font-weight: 700; }
+.neg { color: var(--down); font-weight: 700; }
+
+table.ref {
+  width: 100%;
+  border-collapse: collapse;
+  direction: ltr;
+  font-size: 9.6pt;
+  text-align: center;
+}
+table.ref th, table.ref td { border: 1px solid var(--rule-strong); padding: 1.3mm 1mm; }
+table.ref thead th { background: var(--brand-50); color: var(--brand-600); }
+table.ref tbody th { background: var(--tint); color: var(--violet); }
+
+/* ---------- 12. Answer key ---------- */
+.akey { border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; margin-bottom: 4mm; }
+.akey > .h {
+  background: var(--brand); color: #fff;
+  font-family: "Kufi", sans-serif; font-weight: 600; font-size: 10pt;
+  padding: 2.2mm 4mm;
+  display: flex; align-items: center; gap: 8px;
+}
+.akey > .h .tag {
+  background: rgba(255,255,255,.2);
+  border-radius: var(--r-sm);
+  padding: .3mm 2.2mm; font-size: 8.4pt; direction: ltr;
+}
+.akey > .b { padding: 3.2mm 4mm; }
+
+/* worksheet (exam-style blank page) */
+.ws-head {
+  display: flex; gap: 6mm; align-items: flex-end;
+  border-bottom: 1.6px solid var(--ink);
+  padding-bottom: 2mm; margin-bottom: 5mm;
+  font-family: "Kufi", sans-serif; font-size: 9.4pt;
+}
+.ws-head .fld { flex: 1; display: flex; align-items: baseline; gap: 5px; }
+.ws-head .fld i { font-style: normal; color: var(--muted); }
+.ws-head .fld u { flex: 1; border-bottom: 1px dotted var(--rule-strong); text-decoration: none; height: 1em; }
+
+.task {
+  background: var(--tint);
+  border: 1px solid var(--rule);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  padding: 1.8mm 3mm;
+  margin: 0 0 2.4mm;
+  font-family: "Kufi", sans-serif;
+  font-size: 9.2pt;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.items { display: grid; gap: 2.4mm 5mm; margin: 0 0 4mm; }
+.items.g2 { grid-template-columns: 1fr 1fr; }
+.items.g4 { grid-template-columns: repeat(4,1fr); }
+.items .item { display: flex; align-items: center; gap: 7px; font-size: 10pt; }
+.items .item .n {
+  flex: none; width: 17px; height: 17px; border-radius: var(--r-sm);
+  background: var(--brand-50); border: 1px solid #c6dde9;
+  color: var(--brand); font-size: 7.6pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; direction: ltr;
+  font-family: "Kufi", sans-serif;
+}
+
+/* ---------- 13. Screen-only chrome ---------- */
+@media screen {
+  body { padding: 10mm 0; }
+}
+@page { size: A4; margin: 0; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; margin: 0; break-after: page; }
+  .sheet:last-child { break-after: auto; }
+}
+
+/* ---------- 14. Tree connectors ---------- */
+.tree .lvl { display: flex; gap: 4mm; align-items: flex-start; }
+.tree .col { flex: 1; display: flex; flex-direction: column; align-items: stretch; }
+.tree .stem { width: 0; height: 3.5mm; border-inline-start: 1.3px solid var(--brand-300); margin: 0 auto; }
+.tree .bracket {
+  height: 3.5mm;
+  border-top: 1.3px solid var(--brand-300);
+  border-inline-start: 1.3px solid var(--brand-300);
+  border-inline-end: 1.3px solid var(--brand-300);
+  border-radius: 5px 5px 0 0;
+  margin: 0 16.6%;
+}
+.tree .bracket.sub { margin: 0 16.6%; }
+.tree .lvl.sub .node { font-size: 8.2pt; padding: 1.2mm 1.6mm; }
+
+/* ---------- 15. Sign-change patterns ---------- */
+.signrow { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 5mm; }
+.sr { text-align: center; }
+.sr-line {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  border-top: 1.6px solid var(--ink-soft);
+  padding-top: 1.2mm;
+  direction: ltr;
+  font-size: 9.6pt; letter-spacing: .12em;
+}
+.sr-line .cv {
+  font-family: Georgia, serif; font-style: italic; font-weight: 700;
+  color: var(--ink); letter-spacing: 0;
+}
+.sr-cap { font-size: 8.8pt; color: var(--ink-soft); margin-top: .6mm; }
+
+/* out-of-domain cell in a sign table */
+table.sgn td.out {
+  color: var(--down);
+  font-size: 8.2pt;
+  font-weight: 600;
+  direction: rtl;
+  letter-spacing: 0;
+  background: repeating-linear-gradient(-45deg, #fbf4f4 0 5px, #fff 5px 10px);
+}
+
+/* sub-question prompt inside a multi-part exam question */
+.qsub {
+  font-family: "Kufi", sans-serif;
+  font-size: 9.2pt;
+  font-weight: 600;
+  color: var(--brand-600);
+  background: var(--brand-50);
+  border-radius: var(--r-sm);
+  padding: .8mm 2.6mm;
+  margin: 0 0 1.6mm;
+}
+.qsub + .choices { margin-bottom: 2.6mm; }
+
+/* single lead figure above a row of answer options */
+.fgrid-lead { display: flex; justify-content: center; }
+.fgrid-lead figure.fig { width: 52%; margin: 0; }
+.fgrid-lead figure.fig img { height: 46mm; object-fit: contain; }
+
+/* keep a label + its interval together as one RTL group */
+.kv {
+  display: inline-block;
+  direction: rtl;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  margin-inline-start: 7px;
+}
+/* a row of quadrant results (چ₁ … چ₄) */
+.qdrow { display: flex; flex-wrap: wrap; gap: 3px 14px; direction: rtl; margin-bottom: .6mm; }
+.qd { direction: rtl; unicode-bidi: isolate; white-space: nowrap; }
+
+/* a Kurdish word sitting inside a left-to-right equation line */
+.steps .rtl { direction: rtl; unicode-bidi: isolate; }
