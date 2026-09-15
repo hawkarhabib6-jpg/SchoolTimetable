@@ -831,5 +831,33 @@ const doc = new Document({
   }],
 });
 
+
+/* --------------------------- 5. package repair ----------------------------
+   docx-js numbers every drawing "1".  Word refuses to open a document whose
+   <wp:docPr> ids repeat, so renumber them (LibreOffice happily ignores this).
+   While we are here, repack with [Content_Types].xml first and no directory
+   entries, which is the layout Word itself writes.                          */
+function repackForWord(file) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "docx-"));
+  execFileSync("unzip", ["-qo", file, "-d", tmp]);
+  const docPath = path.join(tmp, "word", "document.xml");
+  let xml = fs.readFileSync(docPath, "utf8");
+  let a = 0, b = 0;
+  xml = xml.replace(/<wp:docPr id="\d+" name="[^"]*"/g,
+    () => { a++; return `<wp:docPr id="${a}" name="Figure ${a}"`; });
+  xml = xml.replace(/<pic:cNvPr id="\d+" name="[^"]*"/g,
+    () => { b++; return `<pic:cNvPr id="${b}" name="Figure ${b}"`; });
+  fs.writeFileSync(docPath, xml);
+  fs.rmSync(file);
+  execFileSync("zip", ["-q", "-X", "-D", file, "[Content_Types].xml"], { cwd: tmp });
+  for (const d of ["_rels", "docProps", "word"]) {
+    if (fs.existsSync(path.join(tmp, d)))
+      execFileSync("zip", ["-q", "-X", "-D", "-r", file, d], { cwd: tmp });
+  }
+  fs.rmSync(tmp, { recursive: true, force: true });
+  console.log("renumbered drawings:", a);
+}
+
 fs.writeFileSync(OUT, await Packer.toBuffer(doc));
+repackForWord(OUT);
 console.log("wrote", OUT, "(" + (fs.statSync(OUT).size / 1024 / 1024).toFixed(1) + " MB)");
