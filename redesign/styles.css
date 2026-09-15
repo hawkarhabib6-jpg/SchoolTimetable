@@ -575,13 +575,18 @@ table.sgn tr.pr .chip {
 
 /* ---------- 9. Figures ---------- */
 figure.fig { margin: 0 0 2mm; break-inside: avoid; }
+figure.fig svg,
 figure.fig img {
   display: block;
   width: 100%;
+  height: auto;
   border: 1px solid var(--rule);
   border-radius: var(--r-sm);
   background: #fff;
 }
+/* every figure shares one 4:3 frame, so a row of them is always the same size */
+.cols2 > figure.fig svg { max-width: 74%; margin-inline: auto; }
+.fgrid-lead figure.fig svg { max-width: 100%; }
 figure.fig figcaption {
   margin-top: 1.4mm;
   font-size: 8.2pt;
@@ -590,12 +595,7 @@ figure.fig figcaption {
   line-height: 1.5;
 }
 figure.fig figcaption b { color: var(--ink-soft); font-family: "Kufi", sans-serif; font-weight: 600; }
-.fig.plain img { border: none; }
-/* even rows of figures: equal picture heights */
-.cols2 > figure.fig img, .cols3 > figure.fig img, .cols4 > figure.fig img { height: 30mm; object-fit: contain; }
-.cols3.tall > figure.fig img, .cols4.tall > figure.fig img { height: 36mm; }
-.cols2.tall > figure.fig img { height: 44mm; }
-.fig.sm img { height: 30mm; object-fit: contain; }
+.fig.plain svg { border: none; }
 .fignum {
   display: inline-block;
   background: var(--brand); color: #fff;
@@ -784,8 +784,7 @@ table.sgn td.out {
 
 /* single lead figure above a row of answer options */
 .fgrid-lead { display: flex; justify-content: center; }
-.fgrid-lead figure.fig { width: 52%; margin: 0; }
-.fgrid-lead figure.fig img { height: 46mm; object-fit: contain; }
+.fgrid-lead figure.fig { width: 54%; margin: 0; }
 
 /* keep a label + its interval together as one RTL group */
 .kv {

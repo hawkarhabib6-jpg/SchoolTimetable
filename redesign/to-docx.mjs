@@ -46,21 +46,35 @@ const line = (color = C.ruleS, size = 4) => ({ style: BorderStyle.SINGLE, size, 
 const cellBorders = (color = C.ruleS) => ({ top: line(color), bottom: line(color), left: line(color), right: line(color) });
 
 /* -------------------------------- 1. read DOM ----------------------------- */
+const FIGDIR = fs.mkdtempSync(path.join(os.tmpdir(), "figs-"));
+
 async function readTree() {
   const browser = await chromium.launch();
-  const page = await browser.newPage();
+  const page = await browser.newPage({ deviceScaleFactor: 2 });
   // keep the raw \( … \) delimiters: block the scripts
   await page.route("**/paginate.js", (r) => r.fulfill({ body: "", contentType: "application/javascript" }));
   await page.route("**/katex.min.js", (r) => r.fulfill({ body: "", contentType: "application/javascript" }));
   await page.route("**/auto-render.min.js", (r) => r.fulfill({ body: "", contentType: "application/javascript" }));
   await page.goto("file://" + path.join(DIR, "index.html"), { waitUntil: "networkidle" });
 
+  // tag the figures in document order and keep their markup
+  const svgs = await page.evaluate(() =>
+    [...document.querySelectorAll("svg.figsvg")].map((el, i) => {
+      el.setAttribute("data-figidx", String(i));
+      return el.outerHTML;
+    }));
+
   const tree = await page.evaluate(() => {
     const ser = (el) => {
       const o = { tag: el.tagName.toLowerCase(), cls: [...el.classList], kids: [] };
       if (el.dataset && el.dataset.break) o.brk = el.dataset.break;
       if (o.tag === "img") { o.src = el.getAttribute("src"); o.w = el.naturalWidth; o.h = el.naturalHeight; return o; }
-      if (o.tag === "svg" || o.tag === "script") return o;
+      if (o.tag === "svg") {
+        const idx = el.getAttribute("data-figidx");
+        if (idx === null) return o;
+        return { tag: "img", fig: Number(idx), w: 1040, h: 780 };
+      }
+      if (o.tag === "script") return o;
       for (const n of el.childNodes) {
         if (n.nodeType === 3) { if (n.nodeValue.length) o.kids.push({ tag: "#text", v: n.nodeValue }); }
         else if (n.nodeType === 1) o.kids.push(ser(n));
@@ -71,7 +85,31 @@ async function readTree() {
       n: li.children[0].textContent, t: li.children[1].textContent, p: li.children[2].textContent }));
     return { blocks: [...document.getElementById("content").children].map(ser), toc };
   });
+  // render every figure on its own, at one fixed size, so the rasters all match
+  const cellsHtml = svgs.map((m) => '<div class="figcell">' + m + "</div>").join("");
+  const tmpPage = path.join(DIR, "_figpage.html");
+  fs.writeFileSync(tmpPage,
+    '<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8">' +
+    '<link rel="stylesheet" href="styles.css"><style>' +
+    'body{margin:0;background:#fff}' +
+    '.figcell{width:520px;height:390px;background:#fff;margin:0 0 6px}' +
+    '.figcell svg{width:520px;height:390px;display:block;border:none;background:#fff}' +
+    "</style></head><body>" + cellsHtml + "</body></html>");
+  await page.goto("file://" + tmpPage, { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  const cells = await page.$$(".figcell");
+  for (let i = 0; i < cells.length; i++) {
+    await cells[i].screenshot({ path: path.join(FIGDIR, "fig" + i + ".png") });
+  }
+  console.log("figures rasterised:", cells.length);
+  fs.rmSync(tmpPage, { force: true });
+
   await browser.close();
+  const fill = (n) => {
+    if (n && n.tag === "img" && n.fig !== undefined) n.src = path.join(FIGDIR, "fig" + n.fig + ".png");
+    (n && n.kids || []).forEach(fill);
+  };
+  tree.blocks.forEach(fill);
   return tree;
 }
 
@@ -217,7 +255,7 @@ const txt = (node) => node.tag === "#text" ? node.v
 
 /* --------------------------------- images --------------------------------- */
 function imageRun(node, maxWidthPx) {
-  const file = path.join(DIR, node.src);
+  const file = path.isAbsolute(node.src) ? node.src : path.join(DIR, node.src);
   const buf = fs.readFileSync(file);
   const ratio = node.h / node.w;
   const w = Math.min(maxWidthPx, node.w);
