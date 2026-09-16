@@ -1,0 +1,413 @@
+/* ==========================================================================
+   وەشانی ئاسان — بۆ خوێندکاری پۆلی ١٠
+   Bigger type, one idea per block, and a fixed four-beat rhythm per lesson.
+   ========================================================================== */
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-600.ttf") format("truetype"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Kufi"; src: url("fonts/NotoKufiArabic-700.ttf") format("truetype"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-500.ttf") format("truetype"); font-weight: 500; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-600.ttf") format("truetype"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Sans"; src: url("fonts/NotoSansArabic-700.ttf") format("truetype"); font-weight: 700; font-display: block; }
+
+:root {
+  --ink:      #16222e;
+  --soft:     #3d4f5e;
+  --muted:    #6b7c8a;
+  --rule:     #e2eaf0;
+  --rule2:    #c8d6e0;
+  --paper:    #ffffff;
+  --tint:     #f4f8fb;
+
+  --brand:    #0e4f6e;
+  --brand-d:  #0a3c55;
+  --brand-50: #eaf3f8;
+
+  --up:       #1a7a52;   /* بەرز دەبێتەوە */
+  --up-50:    #e8f6ef;
+  --down:     #b3322c;   /* دادەبەزێت */
+  --down-50:  #fdeeec;
+  --amber:    #b06d12;   /* خاڵی شلۆق */
+  --amber-50: #fdf5e8;
+  --amber-br: #e7c894;
+
+  --r: 10px;
+  --r-s: 6px;
+  --pad-x: 16mm;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  background: #6b7a84;
+  color: var(--ink);
+  font-family: "Sans", system-ui, sans-serif;
+  font-size: 11.5pt;
+  line-height: 1.85;
+  direction: rtl;
+  text-align: right;
+}
+p { margin: 0 0 .6em; }
+b, strong { font-weight: 600; }
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.06em; }
+
+.c-up   { color: var(--up);   font-weight: 600; }
+.c-down { color: var(--down); font-weight: 600; }
+.c-am   { color: var(--amber); font-weight: 600; }
+.c-br   { color: var(--brand); font-weight: 600; }
+.c-mut  { color: var(--muted); }
+
+/* ---------- sheet ---------- */
+.sheet {
+  position: relative;
+  width: 210mm; height: 297mm;
+  margin: 0 auto 10mm;
+  padding: 13mm var(--pad-x) 12mm;
+  background: var(--paper);
+  box-shadow: 0 2px 14px rgba(0,0,0,.28);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.sheet-body { flex: 1 1 auto; min-height: 0; }
+.rh {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 5px; margin-bottom: 7mm;
+  border-bottom: 2px solid var(--brand);
+  font-family: "Kufi", sans-serif; font-size: 8pt; color: var(--brand-d);
+}
+.rh .rh-au { color: var(--muted); font-weight: 400; }
+.rf {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 5mm; padding-top: 4px;
+  border-top: 1px solid var(--rule);
+  font-family: "Kufi", sans-serif; font-size: 8pt; color: var(--muted);
+}
+.rf .folio {
+  min-width: 24px; height: 24px; padding: 0 8px;
+  border-radius: 999px; background: var(--brand); color: #fff;
+  font-weight: 700; font-size: 8.5pt;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ---------- section opener ---------- */
+.opener { break-inside: avoid; }
+.opener .top {
+  background: linear-gradient(135deg, var(--brand-d), #17708f);
+  color: #fff; border-radius: var(--r);
+  padding: 9mm 8mm; margin-bottom: 6mm;
+}
+.opener .kick { font-family: "Kufi", sans-serif; font-size: 9.5pt; opacity: .85; }
+.opener h1 {
+  font-family: "Kufi", sans-serif; font-size: 25pt; font-weight: 700;
+  margin: 3mm 0 2mm; line-height: 1.45;
+}
+.opener .sub { font-size: 11pt; opacity: .9; }
+.goals {
+  border: 1.6px solid var(--rule2); border-radius: var(--r);
+  padding: 5mm 6mm; background: var(--tint);
+}
+.goals h2 {
+  font-family: "Kufi", sans-serif; font-size: 12pt; color: var(--brand-d);
+  margin: 0 0 3mm;
+}
+.goals ul { list-style: none; margin: 0; padding: 0; }
+.goals li {
+  position: relative; padding-inline-start: 26px; margin-bottom: 2.4mm;
+}
+.goals li::before {
+  content: "✓"; position: absolute; inset-inline-start: 0; top: -1px;
+  color: var(--up); font-weight: 700; font-size: 12pt;
+}
+
+/* ---------- headings ---------- */
+h2.sec {
+  font-family: "Kufi", sans-serif; font-size: 15pt; font-weight: 700;
+  color: var(--brand-d); margin: 0 0 4mm;
+  display: flex; align-items: center; gap: 10px;
+}
+h2.sec .n {
+  flex: none; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-size: 12pt; display: flex; align-items: center; justify-content: center;
+}
+h3.sub {
+  font-family: "Kufi", sans-serif; font-size: 12pt; font-weight: 600;
+  color: var(--brand); margin: 5mm 0 2.5mm;
+}
+
+/* ---------- prerequisites ---------- */
+.prereq { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.pre {
+  border: 1.5px solid var(--rule2); border-radius: var(--r);
+  padding: 3.5mm 4.5mm; background: #fff;
+}
+.pre .t {
+  font-family: "Kufi", sans-serif; font-weight: 600; font-size: 11pt;
+  color: var(--brand-d); margin-bottom: 1.5mm;
+  display: flex; align-items: center; gap: 8px;
+}
+.pre .t i {
+  font-style: normal; flex: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--brand-50); color: var(--brand);
+  font-size: 9pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.pre p { margin: 0 0 1.5mm; font-size: 10.6pt; }
+.pre .eg {
+  background: var(--tint); border-radius: var(--r-s);
+  padding: 1.6mm 3mm; font-size: 10.4pt;
+  direction: ltr; text-align: left;
+}
+
+/* ---------- the function machine ---------- */
+.machine {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  direction: ltr; margin: 2mm 0;
+}
+.machine .box {
+  background: var(--brand); color: #fff; border-radius: var(--r-s);
+  padding: 2mm 5mm; font-family: Georgia, serif; font-size: 12pt;
+}
+.machine .io {
+  background: var(--amber-50); border: 1.5px solid var(--amber-br);
+  color: var(--amber); border-radius: 50%;
+  width: 30px; height: 30px; font-weight: 700; font-size: 11pt;
+  display: flex; align-items: center; justify-content: center;
+}
+.machine .ar { color: var(--muted); font-size: 15pt; }
+
+/* ---------- idea block ---------- */
+.idea {
+  border-inline-start: 5px solid var(--amber);
+  background: var(--amber-50);
+  border-radius: var(--r);
+  padding: 4.5mm 5.5mm; margin-bottom: 4mm;
+}
+.idea .lab {
+  font-family: "Kufi", sans-serif; font-weight: 700; font-size: 10.5pt;
+  color: var(--amber); display: block; margin-bottom: 1.5mm;
+}
+.idea p { margin: 0 0 .5em; font-size: 11.5pt; }
+.idea p:last-child { margin-bottom: 0; }
+
+/* ---------- rule box ---------- */
+.rulebox {
+  border: 2px solid var(--brand); border-radius: var(--r);
+  overflow: hidden; margin-bottom: 4mm; background: #fff;
+}
+.rulebox .h {
+  background: var(--brand); color: #fff;
+  font-family: "Kufi", sans-serif; font-weight: 600; font-size: 11pt;
+  padding: 2.4mm 5mm;
+}
+.rulebox .b { padding: 4mm 5mm; }
+.rule3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; }
+.rule3 .c {
+  border: 1.5px solid var(--rule2); border-radius: var(--r-s);
+  padding: 3mm; text-align: center;
+}
+.rule3 .c .sig { font-size: 15pt; font-weight: 700; display: block; margin-bottom: 1mm; }
+.rule3 .c .say { font-family: "Kufi", sans-serif; font-size: 10.5pt; font-weight: 600; }
+.rule3 .c.up  { background: var(--up-50);   border-color: #a9d8c1; }
+.rule3 .c.fl  { background: var(--amber-50); border-color: var(--amber-br); }
+.rule3 .c.dn  { background: var(--down-50); border-color: #f0c4c0; }
+
+/* ---------- steps recipe ---------- */
+ol.recipe { list-style: none; counter-reset: r; margin: 0; padding: 0; }
+ol.recipe > li {
+  position: relative; padding-inline-start: 34px; margin-bottom: 2.6mm;
+  font-size: 11.2pt;
+}
+ol.recipe > li::before {
+  counter-increment: r; content: counter(r);
+  position: absolute; inset-inline-start: 0; top: .1em;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-family: "Kufi", sans-serif; font-size: 9.5pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- worked example ---------- */
+.wex {
+  border: 1.5px solid var(--rule2); border-radius: var(--r);
+  overflow: hidden; margin-bottom: 4mm; background: #fff;
+}
+.wex > .h {
+  background: var(--brand-50); border-bottom: 1.5px solid #cfe1eb;
+  padding: 2.6mm 5mm; font-family: "Kufi", sans-serif; font-size: 11pt;
+  color: var(--brand-d); font-weight: 600;
+}
+.wex > .b { padding: 3.5mm 5mm; }
+.step {
+  display: grid; grid-template-columns: 1fr 52mm; gap: 5mm;
+  align-items: start; padding: 2.2mm 0;
+  border-bottom: 1px dashed var(--rule);
+}
+.step:last-child { border-bottom: none; }
+.step .do { direction: ltr; text-align: left; font-size: 11.4pt; }
+.step .do .n {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: var(--brand-50); color: var(--brand);
+  font-size: 8.5pt; font-weight: 700; margin-inline-end: 7px;
+  font-family: "Kufi", sans-serif;
+}
+.step .why {
+  font-size: 9.8pt; color: var(--soft); line-height: 1.65;
+  background: var(--tint); border-radius: var(--r-s);
+  padding: 1.8mm 2.8mm;
+}
+.step .why b { color: var(--brand); }
+
+/* ---------- build-the-table, column by column ---------- */
+.build { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+.build .st { }
+.build .cap {
+  font-family: "Kufi", sans-serif; font-size: 9.8pt; color: var(--brand-d);
+  font-weight: 600; margin-bottom: 1.6mm;
+  display: flex; align-items: center; gap: 6px;
+}
+.build .cap i {
+  font-style: normal; flex: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--amber); color: #fff;
+  font-size: 8.5pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+table.sg {
+  width: 100%; border-collapse: collapse; direction: ltr;
+  font-size: 10.2pt; table-layout: fixed; background: #fff;
+}
+table.sg th, table.sg td {
+  border: 1.4px solid var(--rule2); text-align: center;
+  padding: 1.5mm .8mm; vertical-align: middle;
+}
+table.sg th.lbl { background: var(--brand-50); color: var(--brand-d); font-weight: 700; width: 26%; }
+table.sg tr.x td { background: #f3f7ea; font-weight: 700; }
+table.sg tr.x th.lbl { background: #eaf1d9; }
+table.sg td.crit { background: var(--amber-50); color: var(--amber); font-weight: 700; }
+table.sg td.pos { color: var(--up); font-weight: 700; letter-spacing: .2em; }
+table.sg td.neg { color: var(--down); font-weight: 700; letter-spacing: .2em; }
+table.sg td.q { color: var(--muted); font-size: 13pt; font-weight: 700; }
+table.sg td.ar { font-size: 15pt; font-weight: 700; }
+table.sg td.ar.up { color: var(--up); }
+table.sg td.ar.dn { color: var(--down); }
+
+/* ---------- try it ---------- */
+.tryit {
+  border: 1.8px solid var(--up); border-radius: var(--r);
+  overflow: hidden; margin-bottom: 4mm; background: #fff;
+}
+.tryit > .h {
+  background: var(--up-50); padding: 2.6mm 5mm;
+  font-family: "Kufi", sans-serif; font-size: 11pt; font-weight: 700; color: var(--up);
+  display: flex; align-items: center; gap: 8px;
+}
+.tryit > .b { padding: 3.5mm 5mm; }
+.qs { display: grid; gap: 2.6mm; }
+.qq { display: flex; gap: 9px; align-items: baseline; font-size: 11pt; }
+.qq .n {
+  flex: none; width: 21px; height: 21px; border-radius: var(--r-s);
+  background: var(--up-50); border: 1.4px solid #a9d8c1; color: var(--up);
+  font-size: 8.6pt; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Kufi", sans-serif;
+}
+.stars { color: var(--amber); font-size: 9pt; letter-spacing: .06em; }
+.ans {
+  margin-top: 3mm; padding-top: 2.4mm; border-top: 1px dashed var(--rule2);
+  font-size: 10pt; color: var(--muted);
+}
+.ans b { color: var(--soft); font-family: "Kufi", sans-serif; }
+
+/* ---------- common mistakes ---------- */
+.mis {
+  border: 1.8px solid #f0c4c0; border-radius: var(--r);
+  background: var(--down-50); padding: 4mm 5mm; margin-bottom: 4mm;
+}
+.mis > .h {
+  font-family: "Kufi", sans-serif; font-weight: 700; font-size: 11pt;
+  color: var(--down); margin-bottom: 2.5mm;
+}
+.mis .pair {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3mm;
+  padding: 2.2mm 0; border-top: 1px solid #f2d3d0;
+}
+.mis .pair:first-of-type { border-top: none; }
+.mis .bad, .mis .good {
+  background: #fff; border-radius: var(--r-s); padding: 2mm 3mm; font-size: 10.4pt;
+}
+.mis .bad  { border: 1.3px solid #f0c4c0; }
+.mis .good { border: 1.3px solid #a9d8c1; }
+.mis .bad::before  { content: "✗ "; color: var(--down); font-weight: 700; }
+.mis .good::before { content: "✓ "; color: var(--up); font-weight: 700; }
+
+/* ---------- figures ---------- */
+figure.fig { margin: 0 0 3mm; break-inside: avoid; }
+figure.fig svg {
+  display: block; width: 100%; height: auto;
+  border: 1.4px solid var(--rule); border-radius: var(--r-s); background: #fff;
+}
+figure.fig figcaption {
+  margin-top: 1.6mm; font-size: 9.6pt; color: var(--muted); text-align: center;
+}
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+.cols2 > figure.fig svg { max-width: 82%; margin-inline: auto; }
+.row { display: grid; grid-template-columns: 1fr 78mm; gap: 5mm; align-items: center; }
+
+/* ---------- vocabulary ---------- */
+table.vocab { width: 100%; border-collapse: collapse; font-size: 10.6pt; }
+table.vocab th, table.vocab td {
+  border: 1.3px solid var(--rule2); padding: 2mm 3mm; text-align: right;
+}
+table.vocab thead th { background: var(--brand-50); color: var(--brand-d); font-family: "Kufi", sans-serif; }
+table.vocab td.en { direction: ltr; text-align: left; color: var(--soft); }
+table.vocab td.sym { direction: ltr; text-align: center; width: 22%; }
+
+/* ---------- summary poster ---------- */
+.poster {
+  border: 2.5px solid var(--brand); border-radius: var(--r);
+  overflow: hidden; background: #fff;
+}
+.poster > .h {
+  background: var(--brand); color: #fff; text-align: center;
+  font-family: "Kufi", sans-serif; font-size: 15pt; font-weight: 700;
+  padding: 3.5mm;
+}
+.poster > .b { padding: 5mm; }
+.flow { display: grid; gap: 3mm; }
+.fstep {
+  display: flex; gap: 10px; align-items: center;
+  border: 1.5px solid var(--rule2); border-radius: var(--r-s);
+  padding: 2.8mm 4mm; background: var(--tint);
+}
+.fstep .n {
+  flex: none; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-family: "Kufi", sans-serif; font-weight: 700; font-size: 11pt;
+  display: flex; align-items: center; justify-content: center;
+}
+.fstep .tx { font-size: 11pt; }
+.legend { display: grid; grid-template-columns: repeat(3,1fr); gap: 3mm; margin-top: 4mm; }
+.legend .c { border-radius: var(--r-s); padding: 3mm; text-align: center; font-size: 10.6pt; }
+.legend .c b { display: block; font-family: "Kufi", sans-serif; font-size: 11pt; margin-bottom: 1mm; }
+.legend .up { background: var(--up-50); color: var(--up); border: 1.4px solid #a9d8c1; }
+.legend .fl { background: var(--amber-50); color: var(--amber); border: 1.4px solid var(--amber-br); }
+.legend .dn { background: var(--down-50); color: var(--down); border: 1.4px solid #f0c4c0; }
+
+.note {
+  border-radius: var(--r-s); padding: 3mm 4mm; margin-bottom: 3.5mm;
+  background: var(--brand-50); border: 1.4px solid #cfe1eb; font-size: 10.8pt;
+}
+.note .lab { font-family: "Kufi", sans-serif; font-weight: 700; color: var(--brand); margin-inline-end: 6px; }
+
+@media screen { body { padding: 10mm 0; } }
+@page { size: A4; margin: 0; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; margin: 0; break-after: page; }
+  .sheet:last-child { break-after: auto; }
+}

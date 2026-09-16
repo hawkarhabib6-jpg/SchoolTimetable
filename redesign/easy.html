@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>بەرزبوونەوە و داهاتنی نەخشە — وەشانی ئاسان</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="easy.css">
+</head>
+<body>
+
+<div id="book"></div>
+
+<div id="content">
+
+  <!-- ══════════════ 1 · opener ══════════════ -->
+  <div class="opener">
+    <div class="top">
+      <div class="kick">بەشی یەکەم · بنەماکان</div>
+      <h1>کەی نەخشەیەک بەرز دەبێتەوە<br>و کەی دادەبەزێت؟</h1>
+      <div class="sub">لە لێژییەوە بۆ خاڵی شلۆق — بەبێ ئەوەی پێشتر هیچت لەسەر داتاشراو زانیبێت</div>
+    </div>
+    <div class="goals">
+      <h2>لەم بەشەدا فێری ئەمانە دەبیت</h2>
+      <ul>
+        <li>واتای <b>لێژی</b> چییە و چۆن پێمان دەڵێت نەخشەکە بەرز دەبێتەوە یان دادەبەزێت.</li>
+        <li>هێمای <b>\(f'(x)\)</b> چی دەگەیەنێت و چۆن دەیخوێنینەوە.</li>
+        <li>چۆن <b>خاڵی شلۆق</b> بدۆزینەوە — ئەو خاڵەی نەخشەکە تێیدا ئاڕاستە دەگۆڕێت.</li>
+        <li>چۆن <b>خشتەی هێما</b> بە چوار هەنگاو دروست بکەیت.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lab">پێویست نییە بترسیت</span>
+    هەموو هێمایەکی نوێ لە یەکەم جاردا بە زمانی ساکار ڕوون دەکرێتەوە، و لە کۆتایی بەشەکەدا
+    خشتەیەکی وشە هەیە کە هەموویان کۆدەکاتەوە.
+  </div>
+
+  <!-- ══════════════ 2 · prerequisites ══════════════ -->
+  <h2 class="sec" data-break="page"><span class="n">١</span>پێش دەستپێکردن: ئەمانە بزانە</h2>
+  <p style="margin-bottom:4mm">ئەم شەش شتە لە پۆلی ٩ و ١٠ـەوە فێربوویت. خێرا بیانخوێنەوە و ڕاهێنانە بچووکەکان جێبەجێ بکە —
+  ئەگەر ئەمانەت لەبەردەستدا بێت، بەشەکانی دواتر ئاسان دەبن.</p>
+
+  <div class="prereq">
+    <div class="pre">
+      <div class="t"><i>١</i>نەخشە چییە؟</div>
+      <p>ئامێرێکە: ژمارەیەکی پێدەدەیت، ژمارەیەکت پێدەداتەوە.</p>
+      <div class="machine">
+        <span class="io">2</span><span class="ar">→</span>
+        <span class="box">f (x) = 3x</span>
+        <span class="ar">→</span><span class="io">6</span>
+      </div>
+      <div class="eg">f (2) = 3 × 2 = 6</div>
+    </div>
+
+    <div class="pre">
+      <div class="t"><i>٢</i>ڕوونکردنەوەی نەخشە</div>
+      <p>هەر جووتە ژمارەیەک \((x , y)\) دەبێتە خاڵێک. هەموو خاڵەکان پێکەوە چەمانەیەک دروست دەکەن.</p>
+      <div class="eg">(1 , 3) , (2 , 6) , (3 , 9) → هێڵێک</div>
+    </div>
+
+    <div class="pre">
+      <div class="t"><i>٣</i>لێژی هێڵ</div>
+      <p>لێژی = <b>بەرزبوونەوە ÷ ڕۆیشتن</b>. ئەگەر موجەب بوو هێڵەکە سەردەکەوێت، ئەگەر سالب بوو دادەبەزێت.</p>
+      <div class="eg">m = 1.5 ÷ 2 = 0.75</div>
+    </div>
+
+    <div class="pre">
+      <div class="t"><i>٤</i>دانانەوە لە فۆرمولدا</div>
+      <p>لەبری \(x\) ژمارەکە دادەنێیت و لێکی دەدەیتەوە.</p>
+      <div class="eg">f (x) = x² − 6x  ⟹  f (1) = 1 − 6 = −5</div>
+    </div>
+
+    <div class="pre">
+      <div class="t"><i>٥</i>دەرهێنانی فاکتەری هاوبەش</div>
+      <p>ئەگەر \(x\) لە هەردوو بەشدا هەبوو، دەریدەهێنیت.</p>
+      <div class="eg">3x² − 6x = 3x (x − 2)</div>
+    </div>
+
+    <div class="pre">
+      <div class="t"><i>٦</i>هێمای لێکدان</div>
+      <p>موجەب × موجەب = موجەب. موجەب × سالب = سالب.</p>
+      <div class="eg">(−2)(5) = −10  ·  (−2)(−5) = +10</div>
+    </div>
+  </div>
+
+  <div class="tryit">
+    <div class="h">خۆت تاقی بکەرەوە <span class="stars">★</span></div>
+    <div class="b">
+      <div class="qs">
+        <div class="qq"><span class="n">١</span><span>ئەگەر \(f(x)=x^2-4x\) بێت، \(f(3)\) چەندە؟</span></div>
+        <div class="qq"><span class="n">٢</span><span>فاکتەری هاوبەشی \(2x^2-8x\) دەربهێنە.</span></div>
+        <div class="qq"><span class="n">٣</span><span>هێڵێک لە هەر ڕۆیشتنی \(2\) بە \(6\) بەرز دەبێتەوە. لێژییەکەی چەندە؟</span></div>
+      </div>
+      <div class="ans"><b>وەڵام:</b> &nbsp; ١) \(-3\) &nbsp;·&nbsp; ٢) \(2x(x-4)\) &nbsp;·&nbsp; ٣) \(3\)</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ 3 · the big idea ══════════════ -->
+  <h2 class="sec" data-break="page"><span class="n">٢</span>بیرۆکەکە: ڕێگایەکی چیا</h2>
+
+  <div class="idea">
+    <span class="lab">بیرۆکە</span>
+    <p>وا بیربکەرەوە کە بە ڕێگایەکدا دەڕۆیت کە بەسەر گردێکدا تێدەپەڕێت. سەرەتا <b class="c-up">سەردەکەویت</b>،
+    پاشان <b class="c-down">دادەبەزیت</b>.</p>
+    <p>لەنێوان ئەو دوو بەشەدا خاڵێک هەیە کە ڕێگاکە تێیدا نە سەردەکەوێت و نە دادەبەزێت —
+    <b class="c-am">تەختە</b>. ئەو خاڵە <b>بەرزترین خاڵی</b> ڕێگاکەیە.</p>
+  </div>
+
+  <div class="row">
+    <div>
+      <p>نەخشەکانیش هەر بەو شێوەیەن. ئەوەی دەمانەوێت بیدۆزینەوە ئەم دوو پرسیارەیە:</p>
+      <ol class="recipe" style="margin-top:3mm">
+        <li>لە کام ماوەدا نەخشەکە <b class="c-up">بەرز دەبێتەوە</b> و لە کام ماوەدا <b class="c-down">دادەبەزێت</b>؟</li>
+        <li>ئەو خاڵانە لە کوێن کە نەخشەکە تێیاندا <b class="c-am">ئاڕاستە دەگۆڕێت</b>؟</li>
+      </ol>
+      <div class="note" style="margin-top:4mm">
+        <span class="lab">ناوی فەرمی</span>
+        بەو خاڵەی نەخشەکە تێیدا تەخت دەبێت دەوترێت <b class="c-am">خاڵی شلۆق</b>،
+        وە بەو نرخەی \(x\) کە لەوێدایە دەوترێت <b class="c-am">بەهای شلۆق</b>.
+      </div>
+    </div>
+    <figure class="fig" data-fig="e_hill">
+      <figcaption>سەرکەوتن، تەختبوون، داهاتن</figcaption>
+    </figure>
+  </div>
+
+  <div class="tryit">
+    <div class="h">وردبوونەوە لە وێنەکە <span class="stars">★</span></div>
+    <div class="b">
+      <div class="qs">
+        <div class="qq"><span class="n">١</span><span>لە بەشە <b class="c-up">سەوز</b>ەکەدا، ڕێگاکە سەردەکەوێت یان دادەبەزێت؟</span></div>
+        <div class="qq"><span class="n">٢</span><span>لە خاڵە <b class="c-am">ئەمبەرییە</b>کەدا، ڕێگاکە چۆنە؟</span></div>
+        <div class="qq"><span class="n">٣</span><span>دوای ئەو خاڵە، ڕێگاکە چی لێدێت؟</span></div>
+      </div>
+      <div class="ans"><b>وەڵام:</b> &nbsp; ١) سەردەکەوێت &nbsp;·&nbsp; ٢) تەختە، نە سەردەکەوێت نە دادەبەزێت &nbsp;·&nbsp; ٣) دادەبەزێت</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ 4 · slope → derivative ══════════════ -->
+  <h2 class="sec" data-break="page"><span class="n">٣</span>لە لێژییەوە بۆ داتاشراو</h2>
+
+  <div class="row">
+    <div>
+      <p>بۆ هێڵێکی ڕاست، <b>لێژی</b> یەک ژمارەیە و لە هەموو شوێنێکدا وەک یەکە:</p>
+      <p style="text-align:center;margin:3mm 0">\(m=\dfrac{\text{بەرزبوونەوە}}{\text{ڕۆیشتن}}\)</p>
+      <p>بەڵام چەمانەیەک لە هەر خاڵێکدا لێژییەکی جیاوازی هەیە. بۆیە پێویستمان بە ئامرازێکە
+      کە لێژی لە <b>هەر خاڵێکدا</b> پێمان بڵێت.</p>
+    </div>
+    <figure class="fig" data-fig="e_slope">
+      <figcaption>لێژی هێڵێکی ڕاست</figcaption>
+    </figure>
+  </div>
+
+  <div class="idea">
+    <span class="lab">هێمای نوێ</span>
+    <p>ئەو ئامرازە بە <b>\(f'(x)\)</b> دەناسرێت و بەم شێوەیە دەیخوێنینەوە:
+    «<b>داتاشراوی یەکەمی \(f\) لە \(x\)</b>».</p>
+    <p>ئەوەی دەیکات تەنها یەک شتە: <b class="c-br">لێژی نەخشەکەت پێدەڵێت لەو خاڵەدا</b>.</p>
+  </div>
+
+  <div class="cols3">
+    <figure class="fig" data-fig="e_tan_up">
+      <figcaption><b class="c-up">لێژی موجەب</b> — نەخشەکە بەرز دەبێتەوە</figcaption>
+    </figure>
+    <figure class="fig" data-fig="e_tan_flat">
+      <figcaption><b class="c-am">لێژی سفر</b> — نەخشەکە تەختە</figcaption>
+    </figure>
+    <figure class="fig" data-fig="e_tan_down">
+      <figcaption><b class="c-down">لێژی سالب</b> — نەخشەکە دادەبەزێت</figcaption>
+    </figure>
+  </div>
+
+  <div class="rulebox">
+    <div class="h">قاعیدەی بنەڕەتی — تەنها ئەمە لەبەر بکە</div>
+    <div class="b">
+      <div class="rule3">
+        <div class="c up"><span class="sig">\(f'(x) > 0\)</span><span class="say">بەرز دەبێتەوە</span></div>
+        <div class="c fl"><span class="sig">\(f'(x) = 0\)</span><span class="say">خاڵی شلۆق</span></div>
+        <div class="c dn"><span class="sig">\(f'(x) &lt; 0\)</span><span class="say">دادەبەزێت</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ 5 · the recipe ══════════════ -->
+  <h2 class="sec" data-break="page"><span class="n">٤</span>ڕێبازەکە: چوار هەنگاو</h2>
+
+  <ol class="recipe">
+    <li><b>داتاشراوە وەربگرە</b> — \(f'(x)\) بدۆزەوە.</li>
+    <li><b>یەکسانی بکە بە سفر</b> — \(f'(x)=0\) و نرخی \(x\) بدۆزەوە. ئەمە <b class="c-am">بەهای شلۆقە</b>.</li>
+    <li><b>خشتەکە دروست بکە</b> — هێڵی ژمارەکان بە بەهای شلۆق دابەش بکە.</li>
+    <li><b>هێما تاقی بکەرەوە</b> — لە هەر ماوەیەک ژمارەیەکی ئاسان هەڵبژێرە و لە \(f'\) دایبنێ.</li>
+  </ol>
+
+  <h3 class="sub">خشتەکە بە هەنگاو دروست دەکرێت</h3>
+  <ol class="recipe" style="margin-bottom:3.5mm">
+    <li>نەخشەکە: \(f(x)=x^{2}-6x+8\)</li>
+    <li>داتاشراوەکەی: \(f'(x)=2x-6\)</li>
+    <li>یەکسان بە سفر: \(2x-6=0\) واتا \(x=3\)</li>
+  </ol>
+
+  <div class="build">
+    <div class="st">
+      <div class="cap"><i>١</i>هێڵی ژمارەکان دابەش بکە</div>
+      <table class="sg">
+        <tr class="x"><th class="lbl">\(x\)</th><td>\(-\infty\)</td><td class="crit">\(3\)</td><td>\(+\infty\)</td></tr>
+        <tr><th class="lbl">\(f'(x)\)</th><td class="q">؟</td><td class="crit">\(0\)</td><td class="q">؟</td></tr>
+      </table>
+    </div>
+    <div class="st">
+      <div class="cap"><i>٢</i>هێما تاقی بکەرەوە</div>
+      <table class="sg">
+        <tr class="x"><th class="lbl">\(x\)</th><td>\(-\infty\)</td><td class="crit">\(3\)</td><td>\(+\infty\)</td></tr>
+        <tr><th class="lbl">\(f'(x)\)</th><td class="neg">− − −</td><td class="crit">\(0\)</td><td class="pos">+ + +</td></tr>
+      </table>
+    </div>
+    <div class="st">
+      <div class="cap"><i>٣</i>ئاڕاستە بنووسە</div>
+      <table class="sg">
+        <tr class="x"><th class="lbl">\(x\)</th><td>\(-\infty\)</td><td class="crit">\(3\)</td><td>\(+\infty\)</td></tr>
+        <tr><th class="lbl">\(f'(x)\)</th><td class="neg">− − −</td><td class="crit">\(0\)</td><td class="pos">+ + +</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td class="ar dn">↘</td><td class="crit">\(-1\)</td><td class="ar up">↗</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:4mm">
+    <span class="lab">بۆ هەنگاوی ٢</span>
+    لە ماوەی چەپ ژمارەی \(0\) هەڵدەبژێرین: \(f'(0)=2(0)-6=-6\) کە <b class="c-down">سالبە</b>.
+    لە ماوەی ڕاست \(4\) هەڵدەبژێرین: \(f'(4)=2(4)-6=2\) کە <b class="c-up">موجەبە</b>.
+  </div>
+
+  <!-- ══════════════ 6 · worked example ══════════════ -->
+  <h2 class="sec" data-break="page"><span class="n">٥</span>نموونەیەکی تەواو، هەنگاو بە هەنگاو</h2>
+
+  <div class="wex">
+    <div class="h">ماوەی بەرزبوونەوە و داهاتنی \(f(x)=x^{2}-6x+8\) بدۆزەوە و خاڵی شلۆقەکەی دیاری بکە.</div>
+    <div class="b">
+      <div class="step">
+        <div class="do"><span class="n">١</span>\(f(x)=x^{2}-6x+8\)</div>
+        <div class="why">ئەمە نەخشەکەیە. <b>+8</b> کاریگەری لەسەر لێژی نییە، چونکە ژمارەیەکی نەگۆڕە.</div>
+      </div>
+      <div class="step">
+        <div class="do"><span class="n">٢</span>\(f'(x)=2x-6\)</div>
+        <div class="why">داتاشراوەمان وەرگرت. ئێستا ئەم فۆرمولە <b>لێژیمان پێدەڵێت</b> لە هەر \(x\)‌ێکدا.</div>
+      </div>
+      <div class="step">
+        <div class="do"><span class="n">٣</span>\(2x-6=0 \;\Longrightarrow\; x=3\)</div>
+        <div class="why">لێژی یەکسان کرد بە سفر، واتا <b>لە کوێ نەخشەکە تەختە</b>. ئەمە <b>بەهای شلۆقە</b>.</div>
+      </div>
+      <div class="step">
+        <div class="do"><span class="n">٤</span>\(f'(0)=-6 &lt; 0\) &nbsp;&nbsp; \(f'(4)=+2 > 0\)</div>
+        <div class="why">دوو ژمارەی ئاسانمان هەڵبژارد، یەکێک لەپێش \(3\) و یەکێک لە دوای. هێماکە گۆڕا.</div>
+      </div>
+      <div class="step">
+        <div class="do"><span class="n">٥</span>\(f(3)=9-18+8=-1\)</div>
+        <div class="why">نرخی \(x\) لە <b>نەخشە بنەڕەتییەکە</b> دادەنێینەوە تا بەرزی خاڵەکە بزانین.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rulebox">
+    <div class="h">وەڵام</div>
+    <div class="b">
+      <p style="margin:0 0 2mm"><b class="c-down">دادەبەزێت</b> لە ماوەی \(\,]-\infty , 3[\,\)</p>
+      <p style="margin:0 0 2mm"><b class="c-up">بەرز دەبێتەوە</b> لە ماوەی \(\,]3 , +\infty[\,\)</p>
+      <p style="margin:0"><b class="c-am">خاڵی شلۆق</b> \((3 , -1)\) — ئەمە نزمترین خاڵی نەخشەکەیە.</p>
+    </div>
+  </div>
+
+  <div class="cols2">
+    <figure class="fig" data-fig="e_signline">
+      <figcaption>هێمای \(f'\) لەسەر هێڵی ژمارەکان</figcaption>
+    </figure>
+    <figure class="fig" data-fig="e_para">
+      <figcaption>ڕوونکردنەوەی \(f(x)=x^{2}-6x+8\)</figcaption>
+    </figure>
+  </div>
+
+  <!-- ══════════════ 7 · practice + mistakes ══════════════ -->
+  <h2 class="sec"><span class="n">٦</span>ڕاهێنان و هەڵە باوەکان</h2>
+
+  <div class="tryit">
+    <div class="h">خۆت تاقی بکەرەوە <span class="stars">★ ئاست یەک</span></div>
+    <div class="b">
+      <div class="qs">
+        <div class="qq"><span class="n">١</span><span>\(f'(x)=4x-8\). بەهای شلۆق بدۆزەوە.</span></div>
+        <div class="qq"><span class="n">٢</span><span>ئەگەر \(f'(5)=-3\) بێت، نەخشەکە لەو خاڵەدا بەرز دەبێتەوە یان دادەبەزێت؟</span></div>
+        <div class="qq"><span class="n">٣</span><span>\(f(x)=x^{2}-10x\). داتاشراوەکەی بنووسە.</span></div>
+      </div>
+      <div class="ans"><b>وەڵام:</b> &nbsp; ١) \(x=2\) &nbsp;·&nbsp; ٢) دادەبەزێت &nbsp;·&nbsp; ٣) \(f'(x)=2x-10\)</div>
+    </div>
+  </div>
+
+  <div class="tryit">
+    <div class="h">خۆت تاقی بکەرەوە <span class="stars">★★ ئاست دوو</span></div>
+    <div class="b">
+      <div class="qs">
+        <div class="qq"><span class="n">٤</span><span>بۆ \(f(x)=x^{2}-4x+1\): بەهای شلۆق، خشتەی هێما و خاڵی شلۆق بدۆزەوە.</span></div>
+        <div class="qq"><span class="n">٥</span><span>بۆ \(f(x)=6x-x^{2}\): لە کام ماوەدا بەرز دەبێتەوە؟</span></div>
+      </div>
+      <div class="ans"><b>وەڵام:</b> &nbsp; ٤) \(x=2\)، خاڵی شلۆق \((2,-3)\) &nbsp;·&nbsp; ٥) \(\,]-\infty , 3[\,\)</div>
+    </div>
+  </div>
+
+  <div class="mis">
+    <div class="h">هەڵە باوەکان — ئاگاداری ئەمانە بە</div>
+    <div class="pair">
+      <div class="bad"><b>بەهای شلۆق</b> و <b>خاڵی شلۆق</b> وەک یەک نین.</div>
+      <div class="good">بەهای شلۆق تەنها \(x\)‌ە. خاڵی شلۆق جووتەی \((x , y)\)‌ە.</div>
+    </div>
+    <div class="pair">
+      <div class="bad">\(f'(x)=0\) واتا هەمیشە بەرزترین یان نزمترین خاڵ.</div>
+      <div class="good">هەندێک جار نەخشەکە تەنها تەخت دەبێت و ئاڕاستە ناگۆڕێت.</div>
+    </div>
+    <div class="pair">
+      <div class="bad">هێما لە \(f(x)\) تاقی بکەرەوە.</div>
+      <div class="good">هێما هەمیشە لە <b>\(f'(x)\)</b> تاقی دەکرێتەوە، نەک لە نەخشە بنەڕەتییەکە.</div>
+    </div>
+  </div>
+
+  <h3 class="sub">وشەنامە</h3>
+  <table class="vocab">
+    <thead><tr><th>کوردی</th><th>ئینگلیزی</th><th>هێما / نموونە</th></tr></thead>
+    <tbody>
+      <tr><td>لێژی</td><td class="en">slope</td><td class="sym">\(m\)</td></tr>
+      <tr><td>داتاشراوی یەکەم</td><td class="en">first derivative</td><td class="sym">\(f'(x)\)</td></tr>
+      <tr><td>بەهای شلۆق</td><td class="en">critical value</td><td class="sym">\(x=3\)</td></tr>
+      <tr><td>خاڵی شلۆق</td><td class="en">critical point</td><td class="sym">\((3 , -1)\)</td></tr>
+      <tr><td>ڕوو لە زیادبوون</td><td class="en">increasing</td><td class="sym">\(f'(x) > 0\)</td></tr>
+      <tr><td>ڕوو لە کەمبوون</td><td class="en">decreasing</td><td class="sym">\(f'(x) &lt; 0\)</td></tr>
+      <tr><td>ماوەی کراوە</td><td class="en">open interval</td><td class="sym">\(\,]a , b[\,\)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════ 8 · summary poster ══════════════ -->
+  <div class="poster" data-break="page">
+    <div class="h">پوختەی بەشەکە لەسەر یەک لاپەڕە</div>
+    <div class="b">
+      <div class="flow">
+        <div class="fstep"><span class="n">١</span><span class="tx"><b>داتاشراوە وەربگرە:</b> \(f(x) \rightarrow f'(x)\)</span></div>
+        <div class="fstep"><span class="n">٢</span><span class="tx"><b>یەکسانی بکە بە سفر:</b> \(f'(x)=0\) ⟵ بەهای شلۆق</span></div>
+        <div class="fstep"><span class="n">٣</span><span class="tx"><b>خشتە دروست بکە:</b> هێڵی ژمارەکان بە بەها شلۆقەکان دابەش بکە</span></div>
+        <div class="fstep"><span class="n">٤</span><span class="tx"><b>هێما تاقی بکەرەوە:</b> لە هەر ماوەیەک ژمارەیەک لە \(f'\) دابنێ</span></div>
+        <div class="fstep"><span class="n">٥</span><span class="tx"><b>\(y\) بدۆزەوە:</b> \(x\) لە \(f\) دابنێوە تا خاڵەکە تەواو بێت</span></div>
+      </div>
+
+      <div class="legend">
+        <div class="c up"><b>\(f'(x) > 0\)</b>بەرز دەبێتەوە ↗</div>
+        <div class="c fl"><b>\(f'(x) = 0\)</b>خاڵی شلۆق</div>
+        <div class="c dn"><b>\(f'(x) &lt; 0\)</b>دادەبەزێت ↘</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/katex/auto-render.min.js"></script>
+<script src="easypag.js"></script>
+</body>
+</html>
