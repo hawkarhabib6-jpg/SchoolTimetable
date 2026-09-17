@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AdStudio</string>
+
+    <string name="editor_title">Ad editor</string>
+    <string name="action_add_media">Add media</string>
+    <string name="action_export">Export</string>
+    <string name="action_play">Play</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_undo">Undo</string>
+
+    <string name="tab_transitions">Transitions</string>
+    <string name="tab_effects">Effects</string>
+    <string name="tab_speed">Speed</string>
+    <string name="tab_text">Text</string>
+    <string name="tab_audio">Audio</string>
+
+    <string name="export_progress">Exporting… %1$d%%</string>
+    <string name="export_done">Saved to %1$s</string>
+    <string name="export_channel_name">Exports</string>
+</resources>

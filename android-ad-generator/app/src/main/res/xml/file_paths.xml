@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Rendered exports live here until the user saves or shares them. -->
+    <cache-path name="renders" path="renders/" />
+    <files-path name="projects" path="projects/" />
+</paths>

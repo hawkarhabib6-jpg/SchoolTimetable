@@ -29,3 +29,13 @@ C:\Users\<ناوەکەت>\AppData\Roaming\school-timetable\timetable-data.json
 ```
 بۆ پاڵپشتی (backup)، ئەم فایلە کۆپی بکە.
 
+
+---
+
+## بەشی دووەمی ئەم ڕیپۆزیتۆرییە: `android-ad-generator/`
+
+بەرنامەیەکی ئەندرۆید (Kotlin + Jetpack Compose) بۆ دروستکردنی ڕیکلامی ڤیدیۆیی کورت لە
+وێنەکان و دەستکاریکردنی ڤیدیۆ. پەیوەندی بە بەرنامەی خشتەی هەفتانەوە نییە — تەنها هەمان
+ڕیپۆزیتۆری بەکاردەهێنن.
+
+بۆ وردەکاری: [`android-ad-generator/ARCHITECTURE.md`](android-ad-generator/ARCHITECTURE.md)
