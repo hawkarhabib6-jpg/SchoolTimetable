@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Check } from 'lucide-react-native';
 
@@ -18,6 +18,12 @@ interface Props {
 export function ColorPicker({ label, value, onChange, allowTransparent = false }: Props) {
   const { theme, textAlign, t } = useSettings();
   const [hex, setHex] = useState(value);
+
+  // Keep the text field in sync when the colour changes from outside (a swatch
+  // tap, or the picker being reused for another element).
+  useEffect(() => {
+    setHex(value);
+  }, [value]);
 
   const applyHex = (next: string) => {
     setHex(next);

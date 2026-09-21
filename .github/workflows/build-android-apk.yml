@@ -8,6 +8,12 @@ on:
       - '.github/workflows/build-android-apk.yml'
   workflow_dispatch:
 
+# A newer commit supersedes an in-flight build, so two runs never race to
+# replace the same release.
+concurrency:
+  group: android-apk
+  cancel-in-progress: true
+
 permissions:
   # Needed to publish the APK as a release asset.
   contents: write

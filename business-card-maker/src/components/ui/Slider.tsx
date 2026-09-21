@@ -84,7 +84,7 @@ export function Slider({
         onLayout={(event) => setTrackWidth(event.nativeEvent.layout.width)}
         style={styles.touchArea}
       >
-        <View style={[styles.track, { backgroundColor: theme.surfaceAlt }]}>
+        <View pointerEvents="none" style={[styles.track, { backgroundColor: theme.surfaceAlt }]}>
           <View
             style={[
               styles.fill,
@@ -98,6 +98,7 @@ export function Slider({
           />
         </View>
         <View
+          pointerEvents="none"
           style={[
             styles.thumb,
             {
