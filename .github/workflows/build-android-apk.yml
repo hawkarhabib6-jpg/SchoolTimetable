@@ -9,7 +9,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # Needed to publish the APK as a release asset.
+  contents: write
 
 defaults:
   run:
@@ -57,10 +58,35 @@ jobs:
              "dist/business-card-maker-${GITHUB_SHA::7}.apk"
           ls -lh dist/
 
-      - name: Upload APK
+      - name: Upload APK as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: business-card-maker-apk
           path: business-card-maker/dist/*.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish APK to Releases
+        # A rolling release keeps one permanent download link that works on a
+        # phone without signing in to GitHub.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          cat > release-notes.md <<'NOTES'
+          ## دروستکەری بزنس کارت — وەشانی ئەندرۆید
+
+          فایلی `.apk` ی خوارەوە دابگرە و لەسەر مۆبایلەکەت دایبمەزرێنە.
+          لە کاتی دامەزراندندا ئەندرۆید ئاگادارت دەکاتەوە کە سەرچاوەکە نەناسراوە —
+          **Install anyway** هەڵبژێرە.
+
+          ---
+
+          Android build of the Business Card Maker app. Signed with the Expo
+          debug keystore: fine for personal use and testing, not for Google Play.
+          NOTES
+          gh release delete bcm-latest --yes --cleanup-tag || true
+          gh release create bcm-latest dist/*.apk \
+            --target "$GITHUB_SHA" \
+            --title "Business Card Maker — APK" \
+            --notes-file release-notes.md
