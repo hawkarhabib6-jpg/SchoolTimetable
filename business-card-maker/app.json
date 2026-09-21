@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Business Card Maker",
+    "slug": "business-card-maker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "bizcard",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.herem.businesscardmaker",
+      "versionCode": 1,
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.herem.businesscardmaker"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app needs access to your photos so you can add a logo or profile picture to your business card.",
+          "cameraPermission": "The app needs camera access so you can take a photo for your business card."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  }
+}
