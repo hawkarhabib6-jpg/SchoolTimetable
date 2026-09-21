@@ -30,6 +30,26 @@ export function TransformSection({ element }: { element: CardElement }) {
   return (
     <View>
       <Slider
+        label={`${t('editor.position')} X`}
+        value={element.x}
+        min={-200}
+        max={CARD_WIDTH}
+        step={1}
+        formatValue={(value) => `${Math.round(value)}`}
+        onChange={(x) => patch({ x: Math.round(x) })}
+        onCommit={(x) => patch({ x: Math.round(x) }, false)}
+      />
+      <Slider
+        label={`${t('editor.position')} Y`}
+        value={element.y}
+        min={-200}
+        max={CARD_HEIGHT}
+        step={1}
+        formatValue={(value) => `${Math.round(value)}`}
+        onChange={(y) => patch({ y: Math.round(y) })}
+        onCommit={(y) => patch({ y: Math.round(y) }, false)}
+      />
+      <Slider
         label={t('editor.width')}
         value={element.width}
         min={20}

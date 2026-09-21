@@ -122,6 +122,8 @@ const en = {
     shapeRounded: 'Rounded',
     shapeCircle: 'Circle',
     shapeLine: 'Line',
+    colorOverlay: 'Colour overlay',
+    dividerLine: 'Divider line',
     shapeTriangle: 'Triangle',
     cornerRadius: 'Corner radius',
     borderWidth: 'Border width',

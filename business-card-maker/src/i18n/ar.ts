@@ -124,6 +124,8 @@ const ar: Dictionary = {
     shapeRounded: 'زوايا دائرية',
     shapeCircle: 'دائرة',
     shapeLine: 'خط',
+    colorOverlay: 'طبقة لون',
+    dividerLine: 'خط فاصل',
     shapeTriangle: 'مثلث',
     cornerRadius: 'استدارة الزوايا',
     borderWidth: 'سماكة الإطار',

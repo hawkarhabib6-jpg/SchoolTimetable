@@ -124,6 +124,8 @@ const ckb: Dictionary = {
     shapeRounded: 'گۆشە خڕ',
     shapeCircle: 'بازنە',
     shapeLine: 'هێڵ',
+    colorOverlay: 'داپۆشەری ڕەنگ',
+    dividerLine: 'هێڵی جیاکەرەوە',
     shapeTriangle: 'سێگۆشە',
     cornerRadius: 'خڕی گۆشە',
     borderWidth: 'ئەستووری چوارچێوە',

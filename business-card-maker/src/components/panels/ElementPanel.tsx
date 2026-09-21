@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Crop, Image as ImageIcon, RotateCw, Sparkles } from 'lucide-react-native';
+import { Crop, Image as ImageIcon, Layers, Minus, RotateCw, Sparkles } from 'lucide-react-native';
 
 import { TransformSection } from './TransformSection';
 import { ColorPicker } from '@/components/ColorPicker';
@@ -22,6 +22,7 @@ import {
   pickFromGallery,
   rotateImage,
 } from '@/utils/imagePicker';
+import { CARD_HEIGHT, CARD_WIDTH } from '@/types/card';
 import type {
   CardElement,
   FontWeight,
@@ -192,6 +193,19 @@ function ImageSection({ element }: { element: ImageElement }) {
     }
   };
 
+  const applySquareCrop = async () => {
+    try {
+      setBusy(true);
+      const square = await cropToSquare(element.uri);
+      const size = Math.min(element.width, element.height);
+      patch({ uri: square, shape: 'rounded', width: size, height: size });
+    } catch {
+      Alert.alert(t('common.error'), t('editor.pickImageError'));
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const applyRotate = async () => {
     try {
       setBusy(true);
@@ -231,6 +245,14 @@ function ImageSection({ element }: { element: ImageElement }) {
           icon={Crop}
           loading={busy}
           onPress={() => void applyCircleCrop()}
+        />
+        <Button
+          label={t('editor.cropSquare')}
+          variant="secondary"
+          compact
+          icon={Crop}
+          loading={busy}
+          onPress={() => void applySquareCrop()}
         />
         <Button
           label={t('editor.rotate90')}
@@ -298,13 +320,46 @@ function ImageSection({ element }: { element: ImageElement }) {
 }
 
 function ShapeSection({ element }: { element: ShapeElement }) {
-  const { t } = useSettings();
+  const { t, rowDirection } = useSettings();
   const { updateElement } = useEditor();
   const patch = (values: Partial<ShapeElement>, transient = false) =>
     updateElement(element.id, values, transient);
 
   return (
     <View>
+      <View style={[styles.row, { flexDirection: rowDirection }]}>
+        <Button
+          label={t('editor.colorOverlay')}
+          variant="secondary"
+          compact
+          icon={Layers}
+          onPress={() =>
+            patch({
+              shape: 'rect',
+              x: 0,
+              y: 0,
+              width: CARD_WIDTH,
+              height: CARD_HEIGHT,
+              cornerRadius: 0,
+              opacity: 0.35,
+            })
+          }
+        />
+        <Button
+          label={t('editor.dividerLine')}
+          variant="secondary"
+          compact
+          icon={Minus}
+          onPress={() =>
+            patch({
+              shape: 'line',
+              width: 400,
+              height: 6,
+              opacity: 1,
+            })
+          }
+        />
+      </View>
       <Segmented<ShapeElement['shape']>
         label={t('editor.shape')}
         value={element.shape}
