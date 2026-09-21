@@ -79,7 +79,20 @@ npx expo start
 
 > **تێبینی:** وەشانەکانی ناو `package.json` بۆ **Expo SDK 53** ڕێکخراون. ئەگەر SDK ـیەکی نوێتر بەکاردەهێنیت، `npx expo install --fix` خۆی هەموویان ڕێک دەخات.
 
-## دروستکردنی APK بە EAS
+## دروستکردنی APK بە GitHub (بەبێ هەژمار)
+
+ڕیپۆزیتۆرییەکە وۆرکفلۆی `.github/workflows/build-android-apk.yml` ـی هەیە. هەر کاتێک شتێک لە `business-card-maker/` بگۆڕێت، GitHub خۆی:
+
+١. `npm install` دەکات
+٢. `npx expo prebuild --platform android` (پرۆژەی ڕەسەنی ئەندرۆید دروست دەکات)
+٣. `./gradlew assembleRelease` (APK دروست دەکات)
+٤. APK لە بەشی **Actions → Artifacts** دادەنێت
+
+بۆ دابەزاندن: بڕۆ بۆ تابی **Actions** ی ڕیپۆزیتۆرییەکە ← نوێترین ڕان ← لە خوارەوە لە **Artifacts** فایلی `business-card-maker-apk` دابگرە ← زیپەکە بکەرەوە ← APK بنێرە بۆ مۆبایل و دایبمەزرێنە (پێویستە «دامەزراندن لە سەرچاوەی نەناسراو» چالاک بکەیت).
+
+> ئەم APK ـە بە کلیلی debug ی Expo ئیمزاکراوە — بۆ خۆت و تاقیکردنەوە تەواو باشە. بۆ Google Play کلیلی ئیمزای ڕەسەنی خۆت پێویستە (بڕوانە خوارەوە).
+
+## دروستکردنی APK بە EAS (بۆ بڵاوکردنەوە)
 
 ```bash
 npm install -g eas-cli

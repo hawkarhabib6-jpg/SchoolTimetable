@@ -1,0 +1,66 @@
+name: Build Android APK (Business Card Maker)
+
+on:
+  push:
+    branches: [main, master, 'claude/**']
+    paths:
+      - 'business-card-maker/**'
+      - '.github/workflows/build-android-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: business-card-maker
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      EXPO_NO_TELEMETRY: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        # React 19 is newer than some libraries declare, so peer ranges are relaxed.
+        run: npm install --legacy-peer-deps
+
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build APK
+        # The Expo template signs release builds with the bundled debug keystore,
+        # so this produces an installable APK without any signing secrets.
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Rename APK
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/release/app-release.apk \
+             "dist/business-card-maker-${GITHUB_SHA::7}.apk"
+          ls -lh dist/
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: business-card-maker-apk
+          path: business-card-maker/dist/*.apk
+          if-no-files-found: error
+          retention-days: 30
